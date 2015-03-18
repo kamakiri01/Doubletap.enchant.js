@@ -103,7 +103,6 @@ enchant.annex.DoubleTap = (function(){
                         this._state = NOTOUCH;
                         break;
                         case NOMOVEDBL:
-                        console.log("DOUBLETAP");
                         // var evt = new enchant.Event(enchant.Event.DOUBLETAP);
                         // evt.x = this._lastX;
                         // evt.y = this._lastY;
