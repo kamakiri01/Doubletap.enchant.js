@@ -1,4 +1,9 @@
-// enchant.annex.Doubletap.setDoubleTapHandler(enchant.Core.instance.rootScene)
+/*
+ * this plugin provide doubletap event, for any scene class. 
+ * enchant.annex is extention container.
+ * example usage.
+ *      enchant.annex.Doubletap.setDoubleTapHandler(enchant.Core.instance.rootScene);
+ */
 if(enchant.annex === undefined){
     enchant.annex = {};
 }
@@ -184,10 +189,6 @@ enchant.annex.DoubleTap = (function(){
                         }
                     }
             });
-            
-
-
-
             scene.addEventListener('enterframe', function(e){
                 hander.dispatchEvent(e);
             });
@@ -207,7 +208,4 @@ enchant.annex.DoubleTap = (function(){
             Event, Event
         };
 })();
-
-
-
 
