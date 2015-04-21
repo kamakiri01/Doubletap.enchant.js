@@ -12,7 +12,7 @@
     game.onload = function(){
         var bear = new Sprite(32, 32);
         bear.image = game.assets['chara1.png'];
-            bear.addEventListener('doubletap', function(e){
+            bear.addEventListener('doubletapstart', function(e){
                 console.log("bear get double tap on " + e.x + "," + e.y);
             });
         game.rootScene.addChild(bear);

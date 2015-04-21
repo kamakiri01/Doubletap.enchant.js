@@ -14,7 +14,8 @@ enchant.annex.DoubleTap = (function(){
             FLINGVEL: 3
         };
         var Event = {
-            DOUBLETAP: 'doubletap'
+            DOUBLETAPSTART: 'doubletapstart',
+            DOUBLETAPEND: 'doubletapend'
         };
         var NOTOUCH = 0;
         var WAITDBL = 1;
@@ -49,6 +50,12 @@ enchant.annex.DoubleTap = (function(){
                     this._startY = this._lastY = e.y;
                     if (this._state == WAITDBL) {
                         this._state = NOMOVEDBL;
+
+                        var evt = new enchant.Event('doubletapstart');
+                        evt.x = this._lastX;
+                        evt.y = this._lastY;
+                        this._target.dispatchEvent(evt);
+
                     } else if (this._state == NOTOUCH) {
                         this._state = NOMOVE;
                     }
@@ -112,7 +119,9 @@ enchant.annex.DoubleTap = (function(){
                         // evt.x = this._lastX;
                         // evt.y = this._lastY;
                         // this._target.dispatchEvent(evt);
-                        var evt = new enchant.Event('doubletap');
+                        var evt = new enchant.Event('doubletapend');
+                        //TODO
+                        //doubletapstartが発行されてもdoubletapendが発行される保障が現バージョンではありません
                         evt.x = this._lastX;
                         evt.y = this._lastY;
                         this._target.dispatchEvent(evt);
@@ -177,8 +186,20 @@ enchant.annex.DoubleTap = (function(){
         var setDoubleTapHandler = function(eventTarget){
             var hander = new DoubhleTapDetector(eventTarget);
 
-            eventTarget.addEventListener('doubletap', function(e){
-                    var evt = new enchant.Event('doubletap');
+            eventTarget.addEventListener('doubletapstart', function(e){
+                    var evt = new enchant.Event('doubletapstart');
+                    var nodes = eventTarget.childNodes.slice();
+                    var push = Array.prototype.push;
+                    while (nodes.length) {
+                        var node = nodes.pop();
+                        node.dispatchEvent(e);
+                        if (node.childNodes) {
+                            push.apply(nodes, node.childNodes);
+                        }
+                    }
+            });
+            eventTarget.addEventListener('doubletapend', function(e){
+                    var evt = new enchant.Event('doubletapend');
                     var nodes = eventTarget.childNodes.slice();
                     var push = Array.prototype.push;
                     while (nodes.length) {
