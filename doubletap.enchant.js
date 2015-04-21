@@ -174,12 +174,12 @@ enchant.annex.DoubleTap = (function(){
                     }
                 }
         });
-        var setDoubleTapHandler = function(scene){
-            var hander = new DoubhleTapDetector(scene);
+        var setDoubleTapHandler = function(eventTarget){
+            var hander = new DoubhleTapDetector(eventTarget);
 
-            scene.addEventListener('doubletap', function(e){
+            eventTarget.addEventListener('doubletap', function(e){
                     var evt = new enchant.Event('doubletap');
-                    var nodes = scene.childNodes.slice();
+                    var nodes = eventTarget.childNodes.slice();
                     var push = Array.prototype.push;
                     while (nodes.length) {
                         var node = nodes.pop();
@@ -189,16 +189,16 @@ enchant.annex.DoubleTap = (function(){
                         }
                     }
             });
-            scene.addEventListener('enterframe', function(e){
+            eventTarget.addEventListener('enterframe', function(e){
                 hander.dispatchEvent(e);
             });
-            scene.addEventListener('touchstart', function(e){
+            eventTarget.addEventListener('touchstart', function(e){
                 hander.dispatchEvent(e);
             });
-            scene.addEventListener('touchmove', function(e){
+            eventTarget.addEventListener('touchmove', function(e){
                 hander.dispatchEvent(e);
             });
-            scene.addEventListener('touchend', function(e){
+            eventTarget.addEventListener('touchend', function(e){
                 hander.dispatchEvent(e);
             });
         };
