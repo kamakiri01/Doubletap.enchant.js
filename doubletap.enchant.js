@@ -50,12 +50,10 @@ enchant.annex.DoubleTap = (function(){
                     this._startY = this._lastY = e.y;
                     if (this._state == WAITDBL) {
                         this._state = NOMOVEDBL;
-
                         var evt = new enchant.Event('doubletapstart');
                         evt.x = this._lastX;
                         evt.y = this._lastY;
                         this._target.dispatchEvent(evt);
-
                     } else if (this._state == NOTOUCH) {
                         this._state = NOMOVE;
                     }
@@ -183,9 +181,19 @@ enchant.annex.DoubleTap = (function(){
                     }
                 }
         });
+        /*
+         * 引数にダブルタップのリスナーを付与します。
+         * 戻り値は返しません。
+         * @param {enchant.EventTarget} eventTarget
+         */
         var setDoubleTapHandler = function(eventTarget){
+            /*
+             * リスナー個別に発行されるハンドラ
+             */
             var hander = new DoubhleTapDetector(eventTarget);
-
+            /*
+             * タッチ開始時のイベントリスナー
+             */
             eventTarget.addEventListener('doubletapstart', function(e){
                     var evt = new enchant.Event('doubletapstart');
                     var nodes = eventTarget.childNodes.slice();
@@ -198,6 +206,11 @@ enchant.annex.DoubleTap = (function(){
                         }
                     }
             });
+            /*
+             * タッチ終了時のイベントリスナー
+             * doubletapstartが発行されていても、doubletapendが発行される保証はありません
+             * タッチエンドまでの間隔が規定値を下回る場合のみイベントが発行されます
+             */
             eventTarget.addEventListener('doubletapend', function(e){
                     var evt = new enchant.Event('doubletapend');
                     var nodes = eventTarget.childNodes.slice();
@@ -210,6 +223,9 @@ enchant.annex.DoubleTap = (function(){
                         }
                     }
             });
+            /*
+             * ハンドラに状態を送るためのリスナ
+             */
             eventTarget.addEventListener('enterframe', function(e){
                 hander.dispatchEvent(e);
             });
@@ -229,4 +245,3 @@ enchant.annex.DoubleTap = (function(){
             Event, Event
         };
 })();
-
